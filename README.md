@@ -1,4 +1,4 @@
-# Kube Remote
+# K8S
 
 ### Kube Architecture
 - Control Plane 
@@ -28,13 +28,31 @@
 ### SSH
   - Remote to machine for create component kube
   - Requirements
-    - Linux VM
+    - Linux VM ![setup VM](#setup-linux-vm)
       - Container runtime, such Docker or CRIO
       - 2 CPU
       - 2 GB RAM
       - conntrack
   - Ref
     - https://minikube.sigs.k8s.io/docs/drivers/ssh/
+
+### Setup Linux VM
+  - off swap
+    ```
+    swapoff -a
+    nano /etc/fstab #comment swap
+    ```
+    ![](src/commentSwap.png)
+    - check swap
+      ```
+      free
+      ```
+      ![](src/swapfree.png)
+
+      ```
+      more /etc/fstab
+      ```
+      ![](src/more.png)
 
 ### Ref
 - https://www.youtube.com/watch?v=QJ9rM4VFK_4
