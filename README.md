@@ -28,7 +28,7 @@
 ### SSH
   - Remote to machine for create component kube
   - Requirements
-    - Linux VM ![setup VM](#setup-linux-vm)
+    - Linux VM [setup VM](#setup-linux-vm)
       - Container runtime, such Docker or CRIO
       - 2 CPU
       - 2 GB RAM
