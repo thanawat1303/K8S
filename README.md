@@ -25,6 +25,7 @@
   - Kubeproxy
     - connect to container or pods by network(สำหรับเชื่อมต่อ pod หรือ container ผ่าน network)
 
+## K8S Remote
 ### SSH
   - Remote to machine for create component kube
   - Requirements
@@ -33,17 +34,27 @@
       - 2 CPU
       - 2 GB RAM
       - conntrack
+    - Windown [setup windown](#setup-windown)
+    1. Check and delete or backup path .kube and .minikube on path user or root
+    2. Create cluster `don't connect ssh`
+       ```
+       minikube start --driver=ssh --native-ssh=false --ssh-ip-address=[IP HOST] --alsologtostderr -v=4
+       ```
+
   - Ref
     - https://minikube.sigs.k8s.io/docs/drivers/ssh/
 
 ### Setup Linux VM
-  - off swap
+  - Swap turn off
     ```
     swapoff -a
     nano /etc/fstab #comment swap
     ```
     ![](src/commentSwap.png)
-    - check swap
+
+    - <details>
+      <summary>verify swap turn off</summary>
+
       ```
       free
       ```
@@ -53,6 +64,82 @@
       more /etc/fstab
       ```
       ![](src/more.png)
+
+      </details>
+
+  - Install docker
+    ```
+    curl -fsSL https://get.docker.com -o get-docker.sh
+    sudo sh get-docker.sh
+    ```
+
+  - Install socat and conntrack
+    ```
+    sodu apt install socat conntrack
+    ```
+  
+  - Restart Host docker
+    ```
+    sudo init 6
+    ```
+
+### Setup windown
+ - <details>
+   <summary>Create Key on machine</summary>
+
+   - open powershell on Administrator
+   - Create ssh key
+   ```
+   ssh-keygen.exe -b 4096 #4096 size key
+   ```
+
+   - open file ssh and copy or export key
+   ```
+   more .\.ssh\id_rsa.pub
+   ```
+
+   </details>
+
+ - <details>
+   <summary>Create Key on Github</summary>
+
+   
+
+   </details>
+
+### Setup ssh key on Linux
+ - <details>
+   <summary>Machine</summary>
+
+   - open on Administrator
+   ```
+   sudo -i
+   ```
+
+   - paste or import ssh-key in file authorized_keys
+   ```
+   nano .ssh/authorized_keys
+   ```
+
+   </details>
+
+ - <details>
+   <summary>Github</summary>
+
+   
+
+   </details>
+
+### tool on Linux
+  - btop
+    - check process run on linux
+    - install 
+      ```
+      sudo snap install btop
+      ```
+
+### tool on Windown
+ - Bitvise
 
 ### Ref
 - https://www.youtube.com/watch?v=QJ9rM4VFK_4
