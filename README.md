@@ -1,6 +1,12 @@
 # K8S
 
-### Kube Architecture
+- ระบบการกระจายงานที่คล้ายกับ swarm แต่มีขนาดที่เล็กกว่า โดย appication ทำงานอยู่ภายใต้ object ที่เรียกว่า Pods
+- มีการเก็บ state และ สามารถ rollbacks ย้อนกลับได้ ด้วย ReplicaSet
+- กำหนดการทำงานร่วมกันผ่าน network namespace
+- มี master กี่เครื่องก็ได้
+- มีการ downtime น้อยที่สุด เพราะสามารถสร้าง port ใหม่เองได้
+
+## Kube Architecture
 - Control Plane 
   - API Server
     - access and manage cluster (สำหรับเข้าถึงและจัดการ cluster)
@@ -9,13 +15,13 @@
     - control node in cluster (ควบคุม node ภายใน cluster)
   
   - Scheduler 
-    - assign task to node (กระจายงาน)
+    - assign task to node (กระจายงานเพื่อไปทำงานบน Node)
 
   - Cluster DNS
     - manage object to communicate by Protocal Network (จัดการ object หรือ componant ที่ต้องสื่อสาร หรือต้องติดต่อกันผ่านทาง Protocal network ด้วย DNS)
 
   - ETCD
-    - Insert information of Object, such Ip address (จัดเก็บข้อมูลของ object เช่น Ip address)
+    - Insert information of cluster, such Ip address (จัดเก็บข้อมูลของ cluster เช่น Ip address มี app อะไรทำงานอยู่บ้าง)
 
 - Worker node
   - Kubelet
@@ -24,6 +30,82 @@
 
   - Kubeproxy
     - connect to container or pods by network(สำหรับเชื่อมต่อ pod หรือ container ผ่าน network)
+
+## Kube kind หรือ Resources
+
+- Pods
+  - หน่วยพื้นฐานที่เล็กที่สุด เป็นการรวมกลุ่มของ container ภายใต้ namespace เดียวกัน เพื่อให้เข้าถึงข้อมูลได้ง่ายยิ่งขึ้น โดยสามารถนำ apps มาใส่ และไปทำงานบน k8s
+  - kind : Pod เป็นเหมือนกำหนดว่า app จะทำงานบน pod นี้
+  - ตัวอย่างไฟล์ .yaml
+    ```yaml
+    apiVersion: v1
+    kind: Pod
+    metadata:
+      name: mypod1
+    spec:
+      containers:
+      - name: httpd
+        image: httpd
+    ```
+
+- Deployments
+  - ส่วนในการกำหนด scale ของ Pod ในการไปทำงานอยู่บน Node ใด และจำนวนในการสร้าง
+  - ตัวอย่างไฟล์ .yaml
+    ```yaml
+    apiVersion: apps/v1
+    kind: Deployment
+    metadata:
+      name: httpd
+      labels:
+        dc: IN
+        env: dev
+    spec: # กำหนด scale ที่ต้องการ
+      replicas: 3
+      selector:
+        matchLabels:
+          env: dev
+      template: # ส่วนของ Pod
+        metadata:
+          name: pod1
+          labels:
+            env: dev
+        spec:
+          containers:
+          - name: mycon1
+            image: httpd
+            ports:
+            - containerPort: 80
+    ```
+- Service
+  - ส่วนในการติดต่อหา pod โดยสามารถให้เข้าถึงผ่านภายนอกได้ด้วย ingress
+
+## K8S command
+- kubectl
+  - ตรวจสอบ pods บน cluster
+  ```
+  kubectl get pods -A
+  ```
+
+  - ตรวจสอบ service
+    ```
+    kubectl get svc
+    ```
+
+  - ตรวจสอบ cluster
+    ```
+    kubectl get nodes
+    ```
+  
+  - สร้าง namespace
+    ```
+    kubectl create namespace <namespace>
+    ```
+
+  - deploy ผ่านไฟล์ .yaml
+    ```
+    kubectl apply -f <ชื่อไฟล์ yaml>
+    ```
+
 
 ## K8S Remote
 ### SSH
@@ -141,5 +223,5 @@
 ### tool on Windown
  - Bitvise
 
-### Ref
+## Ref
 - https://www.youtube.com/watch?v=QJ9rM4VFK_4
