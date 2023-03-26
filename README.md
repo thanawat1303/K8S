@@ -1,4 +1,7 @@
 # K8S
+## What is ?
+
+<div align="center"><img src="src/Kubernetes.png"></div>
 
 - ระบบการกระจายงานที่คล้ายกับ swarm แต่มีขนาดที่เล็กกว่า โดย appication ทำงานอยู่ภายใต้ object ที่เรียกว่า Pods
 - มีการเก็บ state และ สามารถ rollbacks ย้อนกลับได้ ด้วย ReplicaSet
@@ -6,7 +9,15 @@
 - มี master กี่เครื่องก็ได้
 - มีการ downtime น้อยที่สุด เพราะสามารถสร้าง port ใหม่เองได้
 
-## Kube Architecture
+## Topic Lerning
+- [Architecture](#kube-architecture)
+- [Resources](#kube-kind-หรือ-resources)
+- [Command](#k8s-command)
+- [Remote](#k8s-remote)
+
+---
+
+## K8S Architecture
 - Control Plane 
   - API Server `จัดการ cluster เป็นส่วนกลางของระบบ k8s`
     - access and manage cluster (สำหรับเข้าถึงและจัดการ cluster)
@@ -31,7 +42,7 @@
   - Kubeproxy `เชื่อมต่อ pod ผ่าน network`
     - connect to container or pods by network(สำหรับเชื่อมต่อ pod หรือ container ผ่าน network)
 
-## Kube kind หรือ Resources
+## K8S kind หรือ Resources
 
 - Pods
   - หน่วยพื้นฐานที่เล็กที่สุด เป็นการรวมกลุ่มของ container ภายใต้ namespace เดียวกัน เพื่อให้เข้าถึงข้อมูลได้ง่ายยิ่งขึ้น โดยสามารถนำ apps มาใส่ และไปทำงานบน k8s
@@ -145,6 +156,36 @@
     kubectl apply -f <ชื่อไฟล์ yaml>
     ```
 
+- minikube
+  - สร้าง cluster
+    ```
+    minikube start --driver=<driver>
+    ```
+    - Driver
+      - docker
+      - vmware
+      - hyperv
+      - virtualbox
+
+  - เปิดใช้งาน Load balance ใน cluster
+    ```
+    minikube tunnel
+    ```
+
+  - เปิดใช้งาน dashboard 
+    ```
+    minikube dashboard
+    ```
+
+  - หยุด cluster
+    ```
+    minikube stop
+    ```
+  
+  - ลบ cluster
+    ```
+    minikube delete --all
+    ```
 
 ## K8S Remote
 ### SSH
