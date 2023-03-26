@@ -8,27 +8,27 @@
 
 ## Kube Architecture
 - Control Plane 
-  - API Server
+  - API Server `จัดการ cluster เป็นส่วนกลางของระบบ k8s`
     - access and manage cluster (สำหรับเข้าถึงและจัดการ cluster)
 
-  - Controller Manager
+  - Controller Manager `จัดการ node ใน cluster รับคำสั่งจาก admin`
     - control node in cluster (ควบคุม node ภายใน cluster)
   
-  - Scheduler 
+  - Scheduler `กระจายงาน`
     - assign task to node (กระจายงานเพื่อไปทำงานบน Node)
 
-  - Cluster DNS
+  - Cluster DNS `จัดการ object ที่ติดต่อผ่าน network`
     - manage object to communicate by Protocal Network (จัดการ object หรือ componant ที่ต้องสื่อสาร หรือต้องติดต่อกันผ่านทาง Protocal network ด้วย DNS)
 
-  - ETCD
+  - ETCD `ฐานข้อมูลไว้เก็บ state ของ cluster`
     - Insert information of cluster, such Ip address (จัดเก็บข้อมูลของ cluster เช่น Ip address มี app อะไรทำงานอยู่บ้าง)
 
 - Worker node
-  - Kubelet
+  - Kubelet `รับคำสั่งจาก master เพื่อสร้าง pod`
     - contact by API (ติดต่อด้วย API)
     - receive command from user control pane, such resouce of container (รับคำสั่งจากผู้ใช้งานเพื่อนำคำสั่งไปจัดการสร้าง container เช่น การจอง resouce)
 
-  - Kubeproxy
+  - Kubeproxy `เชื่อมต่อ pod ผ่าน network`
     - connect to container or pods by network(สำหรับเชื่อมต่อ pod หรือ container ผ่าน network)
 
 ## Kube kind หรือ Resources
@@ -42,7 +42,7 @@
     kind: Pod
     metadata:
       name: mypod1
-    spec:
+    spec: # กำหนดการทำงาน
       containers:
       - name: httpd
         image: httpd
@@ -69,7 +69,7 @@
           name: pod1
           labels:
             env: dev
-        spec:
+        spec: # กำหนดการทำงาน
           containers:
           - name: mycon1
             image: httpd
@@ -77,7 +77,46 @@
             - containerPort: 80
     ```
 - Service
-  - ส่วนในการติดต่อหา pod โดยสามารถให้เข้าถึงผ่านภายนอกได้ด้วย ingress
+  - ส่วนกำหนด network ในการเชื่อมต่อหา application บน pod ทำให้มีประสิทธิภาพ และสะดวกในการเข้าใช้งาน โดยสามารถให้เข้าถึงผ่านภายนอกได้ด้วย ingress
+  - ตัวอย่างไฟล์ .yaml
+    ```yaml
+    apiVersion: v1
+    kind: Service
+    metadata:
+      name: my-service
+    spec: # กำหนดการทำงาน
+      selector:
+        app: my-app
+      ports:
+        - name: http #ชื่อ port
+          protocol: TCP # โปรโตคอลที่ใช้
+          port: 80 # port ที่ serviec ทำงานบน Host
+          targetPort: 80 # port ที่ appication ทำงานภายใน pod
+    ```
+
+- Ingress
+  - ส่วนจัดการ network ในการเชื่อมต่อ pod ออกสู่ภายนอกโดยตรงผ่าน HTTP และ HTTPS อย่างปลอดภัย โดยเข้าถึง application บน pod ผ่าน URL `แตกต่างจาก Traefik ตรงที่มีฟีเจอร์ที่น้อยกว่า และ traefik ยังจัดการ loadbalance ได้อัตโนมัติ`
+
+- IngressRoute
+  - เหมือนกับ ingress ปกติ แต่จะใช้งานเฉพาะกับ Treafik และมีความสามารถมากกว่า เช่น การกำหนด middleware
+
+- Middleware
+  - จัดการคำร้องขอ และผลลัพท์ของ application ใน pod เพื่อเพิ่มประสิทธิภาพ หรือ ความปลอดภัย ในการเข้าถึง
+  - ตัวอย่างไฟล์ yaml
+    ```yaml
+    apiVersion: v1
+    kind: Middleware
+    metadata:
+      name: traefik-basic-authen
+      namespace: spcn19
+    spec:
+      basicAuth: # ระบุว่าให้ใช้ middleware เกี่ยวกับยืนยันตัวตน
+        secret: dashboard-auth-secret # ใช้การเข้ารหัสจาก secret นี้
+        removeHeader: true
+    ```
+
+- Secret 
+  - ส่วนในการเก็บข้อมูลที่ถูกเข้ารหัส โดยมี key data เป็นส่วนเก็บข้อมูล
 
 ## K8S command
 - kubectl
