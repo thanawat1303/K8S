@@ -11,7 +11,7 @@
 
 ## Topic Lerning
 - [Architecture](#k8s-architecture)
-- [Resources](#k8s-kind-หรือ-resources)
+- [Resources](#k8s-kind-or-resources)
 - [Command](#k8s-command)
 - [Remote](#k8s-remote)
 
@@ -42,7 +42,7 @@
   - Kubeproxy `เชื่อมต่อ pod ผ่าน network`
     - connect to container or pods by network(สำหรับเชื่อมต่อ pod หรือ container ผ่าน network)
 
-## K8S kind หรือ Resources
+## K8S kind or Resources
 
 - Pods
   - หน่วยพื้นฐานที่เล็กที่สุด เป็นการรวมกลุ่มของ container ภายใต้ namespace เดียวกัน เพื่อให้เข้าถึงข้อมูลได้ง่ายยิ่งขึ้น โดยสามารถนำ apps มาใส่ และไปทำงานบน k8s
