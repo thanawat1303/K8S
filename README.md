@@ -10,8 +10,8 @@
 - มีการ downtime น้อยที่สุด เพราะสามารถสร้าง port ใหม่เองได้
 
 ## Topic Lerning
-- [Architecture](#kube-architecture)
-- [Resources](#kube-kind-หรือ-resources)
+- [Architecture](#k8s-architecture)
+- [Resources](#k8s-kind-หรือ-resources)
 - [Command](#k8s-command)
 - [Remote](#k8s-remote)
 
