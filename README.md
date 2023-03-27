@@ -22,7 +22,7 @@
   - API Server `จัดการ cluster เป็นส่วนกลางของระบบ k8s`
     - access and manage cluster (สำหรับเข้าถึงและจัดการ cluster)
 
-  - Controller Manager `จัดการ node ใน cluster รับคำสั่งจาก admin`
+  - Controller Manager `จัดการ node ใน cluster ควบคุม Pod ตรวจสอบการทำงาน`
     - control node in cluster (ควบคุม node ภายใน cluster)
   
   - Scheduler `กระจายงาน`
