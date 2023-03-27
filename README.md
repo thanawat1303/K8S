@@ -132,16 +132,16 @@
 ## K8S command
 - kubectl
   - ตรวจสอบ pods บน cluster
-  ```
-  kubectl get pods -A
-  ```
+    ```
+    kubectl get pods -A
+    ```
 
   - ตรวจสอบ service
     ```
     kubectl get svc
     ```
 
-  - ตรวจสอบ cluster
+  - ตรวจสอบ node
     ```
     kubectl get nodes
     ```
